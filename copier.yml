@@ -140,6 +140,11 @@ github_enable_codecov:
   default: yes
   help: GitHub action runs codecov/codecov-action?
 
+github_enable_sonarqube:
+  type: bool
+  default: no
+  help: GitHub action runs sonarsource/sonarqube-scan-action?
+
 github_enable_makepot:
   type: bool
   default: yes
