@@ -195,3 +195,14 @@ jobs:
       {%- endraw %}
 {%- set makepot_if = "${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == '" ~ org_slug|replace("'", "''") ~ "' }}" %}
         if: {{ makepot_if | to_json }}
+      {%- if github_enable_sonarqube %}
+      - name: Install sonar requirements
+        run: apt install unzip 
+      - name: Create coverage report
+        run: |
+          coverage xml
+      - uses: sonarsource/sonarqube-scan-action@ba9859eae8dd6bd29e412f25ddbbef3d032000f4 # v8.2.2
+        env:
+          SONAR_TOKEN: {{"${{ secrets.SONAR_TOKEN }}"}}
+          SONAR_HOST_URL: {{"${{ secrets.SONAR_HOST_URL }}"}}
+      {%- endif %}
